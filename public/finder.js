@@ -55,13 +55,27 @@ function shablon(film){
 }
 
 function updateFilmsInfo(){
-    $('#content').empty();
-    $('#content').text("Загрузка...");
+    $('#content').empty()
+    $('#content').text("Загрузка...")
 
     $.ajax({
         url: 'https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword?keyword=' + encodeURI($("#search").val()) + '&page=1',
         method: 'GET',
         success: function (data) {
+            var pc = data.pagesCount
+            for (i = 2; i < pc; i++) {
+                $.ajax({
+                    url: `https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword?keyword=${encodeURI($("#search").val())}&page=${i}`,
+                    method: 'GET',
+                    async: false,
+                    success: function (newdata) {
+                        data.films = data.films.concat(newdata.films)
+                    },
+                    error: (e) => {
+                        console.log(e.responseText)
+                    }
+                })
+            }
             var genre = $("#genre").val()
             data.films.forEach( (el, index) => {
                 var checker = false
