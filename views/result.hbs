@@ -1,0 +1,37 @@
+<div class="container">
+    <div class="content">
+        {{#each films}}
+            <div class="item">
+            <h1>
+                {{this.nameRu}}
+            </h1>
+            <img class="poster" src={{this.posterUrl}} alt="Постер">
+            <table class="filminfo">
+                <tbody>
+                    <tr>
+                        <td class="type">Год</td>
+                        <td> {{this.year}} </td>
+                    </tr>
+                    <tr>
+                        <td class="type">Длительность </td>
+                        <td>  {{this.filmLength}}</td>
+                    </tr>
+                    <tr>
+                        <td class="type"> Cтрана </td>
+                        <td>  {{this.countries}}</td>
+                    </tr>
+                    <tr>
+                        <td class="type"> Жанр</td>
+                        <td>  {{this.genres}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="desc">
+                <form action="/res/films/{{this.filmId}}" method="GET">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Подробнее</button>
+                </form>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</div>

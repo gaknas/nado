@@ -17,6 +17,10 @@
   clear: both;
 }
 
+.filminfo {
+  margin-bottom: 10px;
+}
+
 #container{
   width: 500px;
   margin: auto;

@@ -1,7 +1,9 @@
 const express = require('express')
 const path = require('path')
 const exphbs = require('express-handlebars')
-const todoRoutes = require('./routes/nado')
+const createError = require('http-errors')
+const nadoRoutes = require('./routes/nado')
+const resRoutes = require('./routes/result')
 
 const PORT = process.env.PORT || 3000
 
@@ -18,7 +20,31 @@ app.set('views', 'views')
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, 'public')))
 
-app.use(todoRoutes)
+app.use('/', nadoRoutes)
+app.use('/res', resRoutes)
+
+app.use(function(req, res, next) {
+  next(createError(404));
+})
+
+app.use(errorHandler)
+function errorHandler (err, req, res, next) {
+  res.status(err.status || 500)
+  if (req.error) {
+      res.render('error', {
+          title: "Error",
+          error: err,
+          message: req.error.message
+      })
+  }
+  else {
+      res.render('error', {
+          title: "Error",
+          error: err,
+          message: err.messange
+      })
+  }
+}
 
 async function start() {
   try {
