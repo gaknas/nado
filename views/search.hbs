@@ -2,10 +2,8 @@
       <script src="/finder.js"> </script>
       <div id="container">
         <div id="header">
-          <input class="form-control mr-sm-2" id="search" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success my-2 my-sm-0" id="buttonSearch" type="button">Search</button>
           <div class="form-group">
-            <label for="exampleFormControlSelect1">Жанр</label>
+            <label for="genre">Жанр</label>
             <select class="form-control" id="genre">
               <option>аниме</option>
               <option>биография</option>
@@ -42,11 +40,43 @@
               <option>церемония</option>
             </select>
           </div>
+          <div class="form-group">
+            <label for="rfrom">Минимальный рейтинг</label>
+            <select class="form-control" id="rfrom">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6</option>
+              <option>7</option>
+              <option>8</option>
+              <option>9</option>
+              <option>10</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="tro">Максимальный рейтинг</label>
+            <select class="form-control" id="rto">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6</option>
+              <option>7</option>
+              <option>8</option>
+              <option>9</option>
+              <option>10</option>
+            </select>
+          </div>
+          <input class="form-control" id="yfrom" type="text" placeholder="Минимальный год">
+          <br>
+          <input class="form-control" id="yto" type="text" placeholder="Максимальный год">
+          <br>
+          <button class="btn btn-outline-success my-2 my-sm-0" id="buttonSearch" type="button">Search</button>
         </div>
         <div id="content">
 
         </div>
-        <footer class="footer" style="flex: 0 0 auto;">
-          Здесь футер
-        </footer>
       </div>

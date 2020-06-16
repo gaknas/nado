@@ -6,6 +6,9 @@ router.get('/', (req, res) => {
 })
 
 router.get('/search', (req, res) => {
+  console.log(`new connection at ${req.url};`)
+  console.log(`method: ${req.method}`)
+  console.log()
   res.render('search')
 })
 

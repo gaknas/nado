@@ -1,7 +1,7 @@
 const express = require('express')
 const path = require('path')
 const exphbs = require('express-handlebars')
-const todoRoutes = require('./routes/todos')
+const todoRoutes = require('./routes/nado')
 
 const PORT = process.env.PORT || 3000
 
@@ -24,6 +24,7 @@ async function start() {
   try {
     app.listen(PORT, () => {
       console.log('Server has been started...')
+      console.log()
     })
   } catch (e) {
     console.log(e)
