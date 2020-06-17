@@ -38,12 +38,23 @@ var genres = {
     'церемония': 1751
   }
   function zap (url) {
-    var xhr = new XMLHttpRequest()
-    xhr.open('GET', url, false)
-    xhr.setRequestHeader("User-Agent", "Request-promise")
-    xhr.setRequestHeader("X-API-KEY", "635b82ed-9445-41ee-8360-b5efdad83d43")
-    xhr.send()
-    return JSON.parse(xhr.responseText)
+      return new Promise( (resolve, reject) => {
+        const xhr = new XMLHttpRequest()
+        xhr.open('GET', url)
+        xhr.setRequestHeader("User-Agent", "Request-promise")
+        xhr.setRequestHeader("X-API-KEY", "635b82ed-9445-41ee-8360-b5efdad83d43")
+        xhr.onload = () => {
+            if (xhr.status >= 400) {
+                reject(xhr.responseText)
+            } else {
+                resolve(JSON.parse(xhr.responseText))
+            }
+        }
+        xhr.onerror = () => {
+            reject(xhr.responseText)
+        }
+        xhr.send()
+    })
   }
 
   function update(req, res, next) {
@@ -78,27 +89,30 @@ var genres = {
     .then(function (response) {
         for (i = 2; i < response.pagesCount; i++) {
             console.log(i)
-            var newdata = zap(finurl + String(i))
-            response.films = response.films.concat(newdata.films)
+            zap(finurl + String(i))
+            .then( newdata => response.films = response.films.concat(newdata.films) )
+            .catch( error => console.error(error) )
         }
-        response.films.forEach( (el, index) => {
-            console.log(el.filmId)
-            var c = el.countries.map( co => {
-                return co.country;
-            }).join(',')
+        setTimeout(() => {
+            response.films.forEach( (el, index) => {
+                console.log(el.filmId)
+                var c = el.countries.map( co => {
+                    return co.country;
+                }).join(',')
 
-            var g = el.genres.map( ge => {
-                return ge.genre;
-            }).join(',')
+                var g = el.genres.map( ge => {
+                    return ge.genre;
+                }).join(',')
 
-            if (!(el.filmLength)) {
-                response.films[index].filmLength = "Не найдено"
-            }
-            response.films[index].countries = c
-            response.films[index].genres = g
-        })
-        req.films = response.films
-        next()
+                if (!(el.filmLength)) {
+                    response.films[index].filmLength = "Не найдено"
+                }
+                response.films[index].countries = c
+                response.films[index].genres = g
+            })
+            req.films = response.films
+            next()
+        }, 1000)
     })
     .catch(function (err) {
         req.error = err
@@ -110,30 +124,33 @@ var genres = {
     console.log(`new connection at /res${req.url};`)
     console.log(`method: ${req.method}`)
     console.log()
-    var desc = zap('https://kinopoiskapiunofficial.tech/api/v2.1/films/' + req.params.filmid)
-    var film = desc.data
-    var c = film.countries.map( co => {
-        return co.country;
-    }).join(',')
+    zap('https://kinopoiskapiunofficial.tech/api/v2.1/films/' + req.params.filmid)
+    .then(desc => {
+        var film = desc.data
+        var c = film.countries.map( co => {
+            return co.country;
+        }).join(',')
 
-    var g = film.genres.map( ge => {
-        return ge.genre;
-    }).join(',')
+        var g = film.genres.map( ge => {
+            return ge.genre;
+        }).join(',')
 
-    if (!(film.filmLength)) {
-        film.filmLength = "Не найдено"
-    }
-    film.countries = c
-    film.genres = g
-    res.render('sresult', {
-        film: film
+        if (!(film.filmLength)) {
+            film.filmLength = "Не найдено"
+        }
+        film.countries = c
+        film.genres = g
+        res.render('sresult', {
+            film: film
+        })
     })
+    .catch(err => console.error(err))
   })
 
   router.use(update)
 
   router.post('/', (req, res) => {
-    console.log(`new connection at /res/${req.url};`)
+    console.log(`new connection at /res${req.url};`)
     console.log(`method: ${req.method}`)
     console.log()
     res.render('result', {
