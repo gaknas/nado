@@ -57,11 +57,13 @@ function shablon(film){
 function updateFilmsInfo(){
     $('#main').empty();
     $('#main').text("Загрузка...");
+    var age = $("#age").val()
 
     $.ajax({
         url: 'https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword?keyword=' + encodeURI($("#search").val()) + '&page=1',
         method: 'GET',
         success: function (data) {
+            console.log(data)
             
             
             data.films.forEach( (el, index) => {
@@ -86,13 +88,33 @@ function updateFilmsInfo(){
                     method: 'GET',
                     async: false,
                     success: function (filmData) {
-                        data.films[index].description = filmData.data.description;
+                        console.log(filmData)
+                        if (age) {
+                            if (filmData.data.ratingAgeLimits != null) {
+                                if (filmData.data.ratingAgeLimits > age) {
+                                    data.films[index] = null
+                                } else {
+                                    data.films[index].description = filmData.data.description;
+                                }
+                            } else {
+                                data.films[index] = null;
+                            }
+                        }
                     }
 
                     //TODO обработать fail 
                     //https://stackoverflow.com/questions/8918248/ajax-success-and-error-function-failure
                 });
             });
+
+            while (1) {
+                var ind = data.films.indexOf(null)
+                if (ind == -1) {
+                    break
+                } else {
+                    data.films.splice(ind, 1)
+                }
+            }
 
             console.log(data.films);
 
