@@ -88,14 +88,12 @@ var genres = {
     rp(options)
     .then(function (response) {
         for (i = 2; i < response.pagesCount; i++) {
-            console.log(i)
             zap(finurl + String(i))
             .then( newdata => response.films = response.films.concat(newdata.films) )
             .catch( error => console.error(error) )
         }
         setTimeout(() => {
             response.films.forEach( (el, index) => {
-                console.log(el.filmId)
                 var c = el.countries.map( co => {
                     return co.country;
                 }).join(',')
@@ -140,6 +138,9 @@ var genres = {
         }
         film.countries = c
         film.genres = g
+        if (!(film.description)) {
+            film.description = "Не найдено"
+        }
         res.render('sresult', {
             film: film
         })
