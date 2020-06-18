@@ -1,0 +1,80 @@
+#main{
+    margin: auto;
+color: orange;
+width: 500px;
+font: 15px Pacifico-Regular;
+
+}
+.poster{
+    height: 250px;
+    display: inline-block;
+}
+.name{
+    margin-top: 10px;
+    margin-left: 10px;
+    font: Pacifico-Regular;
+}
+.container{
+    margin-top: auto;
+}
+
+@font-face {
+    font-family: Pacifico-Regular;
+    src: url(fonts/Pacifico-Regular.ttf);
+}
+
+#head{
+    font: Pacifico-Regular;
+    color: orange;
+    margin: auto;
+display: inline-block;
+font-style: initial;
+}
+#body{
+    background-color: #000000fb;
+}
+
+.button{
+    background-color: orange;
+    color: #000000fb;
+    display: inline-block;
+}
+.form-group{
+    color: orange;
+}
+
+.home{
+    display: inline-block;
+
+}
+.description{
+    display: inline;
+}
+
+.des{
+    display: inline;
+}
+
+.info{
+    color: orange;
+    margin-bottom: 10px;
+    display: inline-block;
+    margin-top: 25px;
+}
+.table{
+    color: orange;
+    margin-right: 15px;
+    display: inline;
+}
+.vvod{
+    display:inline;
+}
+
+
+        .item{
+display: block;
+margin-top: 20px;
+border: inset;
+border-color: orangered;
+padding: 5px;
+        }
