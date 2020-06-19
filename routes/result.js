@@ -142,7 +142,8 @@ var genres = {
             film.description = "Не найдено"
         }
         res.render('sresult', {
-            film: film
+            film: film,
+            title: "Single film data"
         })
     })
     .catch(err => console.error(err))
@@ -155,7 +156,8 @@ var genres = {
     console.log(`method: ${req.method}`)
     console.log()
     res.render('result', {
-        films: req.films
+        films: req.films,
+        title: "Search result"
     })
   })
 

@@ -15,7 +15,7 @@ router.get('/search', (req, res) => {
   console.log(`method: ${req.method}`)
   console.log()
   res.render('search', {
-    title: "Find a film"
+    title: "Search by filter"
   })
 })
 
@@ -23,7 +23,9 @@ router.get('/byname', (req, res) => {
   console.log(`new connection at ${req.url};`)
   console.log(`method: ${req.method}`)
   console.log()
-  res.render('byname')
+  res.render('byname', {
+    title: "Search by name"
+  })
 })
 
 router.get('/random', (req, res) => {
